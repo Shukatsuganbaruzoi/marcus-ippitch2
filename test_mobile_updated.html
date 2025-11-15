@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AgroTransport Brazil - Connecting Farms and Warehouses</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Logo and Branding */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .logo-icon {
+            font-size: 40px;
+        }
+
+        .brand-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .brand-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 16px;
+        }
+
+        /* User Type Cards */
+        .user-types {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .user-card:active {
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .farmer-card {
+            border-top: 4px solid #4caf50;
+        }
+
+        .warehouse-card {
+            border-top: 4px solid #764ba2;
+        }
+
+        /* Features Section */
+        .features {
+            margin-top: 40px;
+            text-align: center;
+            animation: fadeIn 1s ease-out 0.6s backwards;
+        }
+
+        .features-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .feature-item {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .brand-title {
+                font-size: 24px;
+            }
+
+            .user-card {
+                padding: 25px;
+            }
+
+            .card-icon {
+                font-size: 40px;
+            }
+
+            .card-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-container">
+        <!-- Brand Header -->
+        <div class="brand-header">
+            <div class="logo">
+                <span class="logo-icon">🚜</span>
+            </div>
+            <h1 class="brand-title">AgroTransport Brazil</h1>
+            <p class="brand-subtitle">Connecting Farms and Warehouses</p>
+        </div>
+
+        <!-- User Type Selection -->
+        <div class="user-types">
+            <a href="farmer_mobile.html" class="user-card farmer-card">
+                <div class="card-icon">🌾</div>
+                <h2 class="card-title">I'm a Farmer</h2>
+                <p class="card-description">Request transport, track shipments, and manage your products</p>
+            </a>
+
+            <a href="warehouse_mobile.html" class="user-card warehouse-card">
+                <div class="card-icon">🏭</div>
+                <h2 class="card-title">I'm a Warehouse</h2>
+                <p class="card-description">Manage receipts, track deliveries, and coordinate logistics</p>
+            </a>
+        </div>
+
+        <!-- Features -->
+        <div class="features">
+            <h3 class="features-title">Why Choose Us?</h3>
+            <div class="feature-list">
+                <span class="feature-item">📍 Real-time Tracking</span>
+                <span class="feature-item">💬 Direct Messaging</span>
+                <span class="feature-item">📊 Detailed Reports</span>
+                <span class="feature-item">🔒 Secure Platform</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; 2025 AgroTransport Brazil. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth transitions and analytics tracking
+        document.querySelectorAll('.user-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Show loading state
+                this.style.opacity = '0.7';
+
+                // Track user selection (can be connected to analytics later)
+                const userType = this.classList.contains('farmer-card') ? 'farmer' : 'warehouse';
+                console.log('User selected:', userType);
+
+                // Optional: Store user type in localStorage
+                localStorage.setItem('userType', userType);
+            });
+        });
+    </script>
+</body>
+</html>

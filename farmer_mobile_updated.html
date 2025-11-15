@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Farmer Portal - AgroTransport Brazil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .back-btn:active {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Auth Section */
+        .auth-section {
+            display: block;
+        }
+
+        .auth-section.hidden {
+            display: none;
+        }
+
+        .auth-container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .welcome-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .welcome-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #4caf50;
+            color: white;
+        }
+
+        .auth-form {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4caf50;
+        }
+
+        .password-group {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #999;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            background: #f8f8f8;
+            border-color: #4caf50;
+        }
+
+        /* Dashboard */
+        .dashboard-section {
+            display: none;
+        }
+
+        .dashboard-section.active {
+            display: block;
+        }
+
+        .user-info {
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            color: white;
+            padding: 25px 20px;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 20px;
+        }
+
+        .user-greeting {
+            font-size: 16px;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .user-location {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 0 20px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4caf50;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .action-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .action-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Orders Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .view-all {
+            color: #4caf50;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .orders-list {
+            padding: 0 20px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .order-id {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-in-transit {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-pending {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .order-details {
+            margin-bottom: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px;
+            border: 1px solid #4caf50;
+            background: white;
+            color: #4caf50;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            background: #4caf50;
+            color: white;
+        }
+
+        .action-btn.primary {
+            background: #4caf50;
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #45a049;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: none;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .bottom-nav.active {
+            display: flex;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 20px;
+            cursor: pointer;
+            color: #999;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active {
+            color: #4caf50;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .file-upload {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: #4caf50;
+            background: #f8f9fa;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #4caf50;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .selected-files {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4caf50;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 4000;
+            max-width: 300px;
+        }
+
+        .notification.active {
+            display: flex;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.success {
+            border-left: 4px solid #4caf50;
+        }
+
+        .notification.error {
+            border-left: 4px solid #f44336;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-value {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <!-- App Header -->
+    <div class="app-header">
+        <div class="header-content">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <span class="header-title">Farmer Portal</span>
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        </div>
+    </div>
+
+    <!-- Authentication Section -->
+    <div class="auth-section" id="authSection">
+        <div class="auth-container">
+            <div class="welcome-card">
+                <div class="welcome-icon">🌾</div>
+                <h1 class="welcome-title">Welcome, Farmer!</h1>
+                <p class="welcome-subtitle">Manage your farm transport and track your shipments</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="showAuthForm('login')">Sign In</button>
+                <button class="tab-btn" onclick="showAuthForm('signup')">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email or CPF</label>
+                    <input type="text" class="form-input" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="password-group">
+                        <input type="password" class="form-input" id="loginPassword" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">👁️</button>
+                    </div>
+                </div>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+                <button type="submit" class="submit-btn">Sign In</button>
+                <div class="divider">or continue with</div>
+                <div class="social-login">
+                    <button type="button" class="social-btn" onclick="loginWithGoogle()">
+                        <span>🔵</span>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="social-btn" onclick="loginWithFacebook()">
+                        <span>🔷</span>
+                        <span>Facebook</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Signup Form -->
+            <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label class="form-label">Farm Name</label>
+                    <input type="text" class="form-input" id="signupFarm" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Owner Name</label>
+                    <input type="text" class="form-input" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">CPF</label>
+                    <input type="text" class="form-input" id="signupCPF" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" class="form-input" id="signupPhone" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-input" id="signupLocation" placeholder="City, State" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="password-group">
+                        <input type="password" class="form-input" id="signupPassword" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('signupPassword')">👁️</button>
+                    </div>
+                </div>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <label for="agreeTerms">I agree to the terms and conditions</label>
+                </div>
+                <button type="submit" class="submit-btn">Create Account</button>
+                <div class="divider">or register with</div>
+                <div class="social-login">
+                    <button type="button" class="social-btn" onclick="loginWithGoogle()">
+                        <span>🔵</span>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="social-btn" onclick="loginWithFacebook()">
+                        <span>🔷</span>
+                        <span>Facebook</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div class="dashboard-section" id="dashboardSection">
+        <!-- User Info -->
+        <div class="user-info">
+            <div class="user-greeting">Hello,</div>
+            <div class="user-name">São José Farm</div>
+            <div class="user-location">📍 São Paulo, Brazil</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Active Shipments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">45</div>
+                <div class="stat-label">Total Tons</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <div class="action-card" onclick="openNewRequestModal()">
+                <div class="action-icon">🚛</div>
+                <div class="action-title">New Request</div>
+            </div>
+            <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="action-card">
+                <div class="action-icon">📦</div>
+                <div class="action-title">My Products</div>
+            </a>
+            <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="action-card">
+                <div class="action-icon">💰</div>
+                <div class="action-title">Payments</div>
+            </a>
+            <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="action-card">
+                <div class="action-icon">📊</div>
+                <div class="action-title">Reports</div>
+            </a>
+        </div>
+
+        <!-- Recent Transports -->
+        <div class="section-header">
+            <h2 class="section-title">Recent Transports</h2>
+            <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="view-all">View All</a>
+        </div>
+
+        <div class="orders-list">
+            <div class="order-card">
+                <div class="order-header">
+                    <span class="order-id">#TR-20251</span>
+                    <span class="status-badge status-in-transit">In Transit</span>
+                </div>
+                <div class="order-details">
+                    <div class="detail-row">
+                        <span>🌾</span>
+                        <span>Soybeans - 5 tons</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>📍</span>
+                        <span>São José Farm → Central Warehouse SP</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>🚛</span>
+                        <span>Driver: Carlos Santos</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>⏰</span>
+                        <span>Expected arrival: Today, 6:00 PM</span>
+                    </div>
+                </div>
+                <div class="order-actions">
+                    <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="action-btn primary">Track</a>
+                    <a href="mailto:support@agrotransport.com" class="action-btn">Contact</a>
+                    <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="action-btn">Details</a>
+                </div>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">
+                    <span class="order-id">#TR-20250</span>
+                    <span class="status-badge status-pending">Pending</span>
+                </div>
+                <div class="order-details">
+                    <div class="detail-row">
+                        <span>🌽</span>
+                        <span>Corn - 3 tons</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>📍</span>
+                        <span>São José Farm → South Cooperative</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>📅</span>
+                        <span>Scheduled pickup: Tomorrow, 8:00 AM</span>
+                    </div>
+                </div>
+                <div class="order-actions">
+                    <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="action-btn primary">View Details</a>
+                    <button class="action-btn" onclick="editOrder('TR-20250')">Edit</button>
+                    <button class="action-btn" onclick="cancelOrder('TR-20250')">Cancel</button>
+                </div>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">
+                    <span class="order-id">#TR-20249</span>
+                    <span class="status-badge status-completed">Completed</span>
+                </div>
+                <div class="order-details">
+                    <div class="detail-row">
+                        <span>☕</span>
+                        <span>Coffee - 2 tons</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>📍</span>
+                        <span>São José Farm → North Warehouse</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>✅</span>
+                        <span>Delivered: Yesterday, 2:00 PM</span>
+                    </div>
+                </div>
+                <div class="order-actions">
+                    <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="action-btn">View Receipt</a>
+                    <button class="action-btn" onclick="rateService('TR-20249')">Rate Service</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 80px;"></div>
+    </div>
+
+    <!-- New Request Modal -->
+    <div class="modal" id="newRequestModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">New Transport Request</h2>
+                <button class="close-btn" onclick="closeModal('newRequestModal')">×</button>
+            </div>
+            <form onsubmit="handleNewRequest(event)">
+                <div class="form-group">
+                    <label class="form-label">Product Type</label>
+                    <select class="form-input" id="requestProduct" required>
+                        <option value="">Select Product</option>
+                        <option value="soy">Soybeans</option>
+                        <option value="corn">Corn</option>
+                        <option value="coffee">Coffee</option>
+                        <option value="rice">Rice</option>
+                        <option value="beans">Beans</option>
+                        <option value="wheat">Wheat</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Quantity (tons)</label>
+                    <input type="number" class="form-input" id="requestQuantity" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Pickup Location</label>
+                    <input type="text" class="form-input" id="requestOrigin" value="São José Farm" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Delivery Destination</label>
+                    <input type="text" class="form-input" id="requestDestination" placeholder="Enter warehouse or cooperative" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Preferred Date</label>
+                    <input type="date" class="form-input" id="requestDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Preferred Time</label>
+                    <select class="form-input" id="requestTime" required>
+                        <option value="">Select Time</option>
+                        <option value="morning">Morning (6AM - 12PM)</option>
+                        <option value="afternoon">Afternoon (12PM - 6PM)</option>
+                        <option value="evening">Evening (6PM - 10PM)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Product Photos/Documents</label>
+                    <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                        <div class="upload-icon">📷</div>
+                        <div class="upload-text">Click to upload photos or documents</div>
+                        <input type="file" id="fileInput" multiple accept="image/*,.pdf" style="display: none;" onchange="handleFileUpload(event)">
+                    </div>
+                    <div id="selectedFiles" class="selected-files" style="display: none;"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Special Instructions</label>
+                    <textarea class="form-input" id="requestNotes" rows="3" placeholder="e.g., refrigeration required, fragile, etc."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav" id="bottomNav">
+        <a href="#home" class="nav-item active" onclick="switchTab('home')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="nav-item">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Orders</span>
+        </a>
+        <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="nav-item">
+            <span class="nav-icon">📍</span>
+            <span class="nav-label">Track</span>
+        </a>
+        <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span class="nav-label">Profile</span>
+        </a>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'https://your-backend-url.com/api';
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            notificationText.textContent = message;
+            notification.className = `notification ${type} active`;
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 3000);
+        }
+
+        // Show/hide loading
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('active');
+        }
+
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        // Switch auth forms
+        function showAuthForm(formType) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const forms = document.querySelectorAll('.auth-form');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            forms.forEach(form => form.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(formType + 'Form').classList.add('active');
+        }
+
+        // Handle login
+        async function handleLogin(event) {
+            event.preventDefault();
+            showLoading();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // TODO: Replace with actual API call
+            setTimeout(() => {
+                hideLoading();
+                showNotification('Login successful!');
+                showDashboard();
+            }, 1000);
+        }
+
+        // Handle signup
+        async function handleSignup(event) {
+            event.preventDefault();
+            showLoading();
+            
+            const formData = {
+                farm: document.getElementById('signupFarm').value,
+                name: document.getElementById('signupName').value,
+                email: document.getElementById('signupEmail').value,
+                cpf: document.getElementById('signupCPF').value,
+                phone: document.getElementById('signupPhone').value,
+                location: document.getElementById('signupLocation').value,
+                password: document.getElementById('signupPassword').value
+            };
+            
+            // TODO: Replace with actual API call
+            setTimeout(() => {
+                hideLoading();
+                showNotification('Account created successfully!');
+                showDashboard();
+            }, 1000);
+        }
+
+        // Social login
+        function loginWithGoogle() {
+            showNotification('Google login will be integrated with backend', 'error');
+        }
+
+        function loginWithFacebook() {
+            showNotification('Facebook login will be integrated with backend', 'error');
+        }
+
+        // Show dashboard
+        function showDashboard() {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.add('active');
+            document.getElementById('bottomNav').classList.add('active');
+        }
+
+        // Modal functions
+        function openNewRequestModal() {
+            document.getElementById('newRequestModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Handle new request
+        async function handleNewRequest(event) {
+            event.preventDefault();
+            showLoading();
+            
+            const requestData = {
+                product: document.getElementById('requestProduct').value,
+                quantity: document.getElementById('requestQuantity').value,
+                origin: document.getElementById('requestOrigin').value,
+                destination: document.getElementById('requestDestination').value,
+                date: document.getElementById('requestDate').value,
+                time: document.getElementById('requestTime').value,
+                notes: document.getElementById('requestNotes').value
+            };
+            
+            // TODO: Replace with actual API call
+            setTimeout(() => {
+                hideLoading();
+                closeModal('newRequestModal');
+                showNotification('Transport request submitted successfully!');
+                event.target.reset();
+                document.getElementById('selectedFiles').style.display = 'none';
+            }, 1000);
+        }
+
+        // File upload handler
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            const selectedFilesDiv = document.getElementById('selectedFiles');
+            
+            if (files.length > 0) {
+                selectedFilesDiv.style.display = 'block';
+                selectedFilesDiv.innerHTML = '<strong>Selected files:</strong><br>';
+                
+                for (let file of files) {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.innerHTML = `<span>📎 ${file.name}</span><span>${(file.size / 1024).toFixed(1)} KB</span>`;
+                    selectedFilesDiv.appendChild(fileItem);
+                }
+                
+                showNotification(`${files.length} file(s) selected`);
+            }
+        }
+
+        // Edit order
+        function editOrder(orderId) {
+            showNotification(`Edit functionality for ${orderId} will be implemented`, 'error');
+        }
+
+        // Cancel order
+        function cancelOrder(orderId) {
+            if (confirm(`Are you sure you want to cancel order ${orderId}?`)) {
+                showLoading();
+                // TODO: API call to cancel order
+                setTimeout(() => {
+                    hideLoading();
+                    showNotification(`Order ${orderId} cancelled successfully`);
+                }, 1000);
+            }
+        }
+
+        // Rate service
+        function rateService(orderId) {
+            showNotification('Rating functionality will be implemented', 'error');
+        }
+
+        // Navigation
+        function goBack() {
+            if (document.getElementById('dashboardSection').classList.contains('active')) {
+                if (confirm('Are you sure you want to log out?')) {
+                    document.getElementById('dashboardSection').classList.remove('active');
+                    document.getElementById('authSection').classList.remove('hidden');
+                    document.getElementById('bottomNav').classList.remove('active');
+                }
+            } else {
+                window.location.href = 'test_mobile.html';
+            }
+        }
+
+        function toggleMenu() {
+            showNotification('Menu functionality to be implemented', 'error');
+        }
+
+        function switchTab(tab) {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        // Check for saved session
+        window.addEventListener('load', () => {
+            const authToken = localStorage.getItem('authToken');
+            if (authToken) {
+                // showDashboard();
+            }
+        });
+    </script>
+</body>
+</html>
