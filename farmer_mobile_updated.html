@@ -841,7 +841,7 @@
         <!-- Recent Transports -->
         <div class="section-header">
             <h2 class="section-title">Recent Transports</h2>
-            <a href="https://shukatsuganbaruzoi.github.io/marcus-ippitch2/ippitch/Po/further_mobile.html" class="view-all">View All</a>
+            <a href="#" class="action-card" onclick="showComingSoon(event)">...</a>
         </div>
 
         <div class="orders-list">
@@ -1219,6 +1219,11 @@
         });
         function goBack() {
   window.location.href = "https://shukatsuganbaruzoi.github.io/marcus-ippitch2/test_mobile_updated.html";
+}
+function showComingSoon(event) {
+  event.preventDefault();
+  // If you already have a notification element in your page (like 'notification' in prior templates):
+  showNotification('COMING SOON!!');
 }
 
     </script>
